@@ -1,0 +1,12 @@
+{
+  "v": "KERI10JSON00011c_",
+  "t": "rpy",
+  "d": "EZ-i0d8JZAoTNZH3ULaU6JR2nmwyvYAfSVPzhzS6b5CM",
+  "dt": "2020-08-22T17:50:12.988921+00:00",
+  "r": "/loc/scheme",
+  "a": {
+    "eid": "BrHLayDN-mXKv62DAjFLX1_Y5yEUe0vA9YPe_ihiKYHE",
+    "scheme": "http",
+    "url": "http://localhost:8080/watcher/wilma"
+  }
+}

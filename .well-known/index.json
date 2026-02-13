@@ -1,5 +1,6 @@
 {
   "$id": "EAyAqJjqLHZqkF7gHoFEagEJNoqNa5TEZlDPdJaVC3GD",
+  "$schema": "/schema/oobi/EBIFDhtSE0cM4nbTnaMqiV1vUIlcnbsqBMeVMmeGmXOu/index.json",
   "name": "GLEIF Well-Known Resources",
   "description": "GLEIF well-known resources for GLEIF, Schema, and Witness discovery",
   "version": "1.0.0",
@@ -68,6 +69,12 @@
           "type": "iXBRLDataAttestation",
           "version": "Not specified",
           "oobi": "/schema/oobi/EMhvwOlyEJ9kN4PrwCpr9Jsv7TxPhiYveZ0oP3lJzdEi/index.json"
+        },
+        "EBIFDhtSE0cM4nbTnaMqiV1vUIlcnbsqBMeVMmeGmXOu": {
+          "title": "Well-Known Discovery Resource",
+          "type": "WellKnownDiscoveryResource",
+          "version": "1.0.0",
+          "oobi": "/schema/oobi/EBIFDhtSE0cM4nbTnaMqiV1vUIlcnbsqBMeVMmeGmXOu/index.json"
         }
       }
     },
@@ -104,6 +111,18 @@
         },
         "BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB": {
           "oobi": "/witness/oobi/BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB/index.json"
+        }
+      }
+    },
+    "external": {
+      "name": "External Well-Known Resources",
+      "description": "References to other organizations' .well-known discovery endpoints",
+      "endpoints": {
+        "EBcIURLpxmVwahksgrsGW6_dUw0zBhyEHYFk17eWrZfk": {
+          "name": "Example QVI (Placeholder)",
+          "description": "Placeholder entry demonstrating external endpoint structure. Replace with real QVI endpoints.",
+          "url": "https://example.org/.well-known/index.json",
+          "types": ["aid", "schema", "witness"]
         }
       }
     }

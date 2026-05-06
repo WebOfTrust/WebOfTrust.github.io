@@ -1,1 +1,5 @@
+# NOTE: the "oobi" entry below is deprecated. The /oobi/ directory will be
+# retired in favor of the .well-known/ structure (see .well-known/index.json).
+# Once consumers have migrated to /.well-known/aid/oobi/, /.well-known/schema/oobi/,
+# and /.well-known/witness/oobi/, drop "oobi" from this include list.
 include: [".well-known", "oobi"]

@@ -12,15 +12,15 @@
       "aids": {
         "EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2": {
           "name": "GLEIF RoOT",
-          "oobi": "/.well-known/keri/oobi/EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2/index.json"
+          "oobi": "/.well-known/aid/oobi/EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2/index.json"
         },
         "EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS": {
           "name": "GLEIF External",
-          "oobi": "/.well-known/keri/oobi/EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS/index.json"
+          "oobi": "/.well-known/aid/oobi/EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS/index.json"
         },
         "EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL": {
           "name": "GLEIF Internal",
-          "oobi": "/.well-known/keri/oobi/EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL/index.json"
+          "oobi": "/.well-known/aid/oobi/EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL/index.json"
         }
       }
     },
@@ -75,6 +75,18 @@
           "type": "WellKnownDiscoveryResource",
           "version": "1.0.0",
           "oobi": "/.well-known/schema/oobi/EBIFDhtSE0cM4nbTnaMqiV1vUIlcnbsqBMeVMmeGmXOu/index.json"
+        },
+        "EDthuv3Zf67Y_Ly_wpVm8TUKaoVKxXUKCyAI9VeofR7X": {
+          "title": "Designated Aliases Private Attestation",
+          "type": "DesignatedAliasesPrivateAttestation",
+          "version": "1.0.0",
+          "oobi": "/.well-known/schema/oobi/EDthuv3Zf67Y_Ly_wpVm8TUKaoVKxXUKCyAI9VeofR7X/index.json"
+        },
+        "EN6Oh5XSD5_q2Hgu-aqpdfbVepdpYpFlgz6zvJL5b_r5": {
+          "title": "Designated Aliases Public Attestation",
+          "type": "DesignatedAliasesPublicAttestation",
+          "version": "1.0.0",
+          "oobi": "/.well-known/schema/oobi/EN6Oh5XSD5_q2Hgu-aqpdfbVepdpYpFlgz6zvJL5b_r5/index.json"
         }
       }
     },

@@ -130,6 +130,6 @@
   "metadata": {
     "organization": "Global Legal Entity Identifier Foundation (GLEIF)",
     "contact": "https://www.gleif.org",
-    "documentation": "https://gleif-it.github.io/.well-known/"
+    "documentation": "https://weboftrust.github.io/docs/qvi-well-known-implementation-guide.html"
   }
 }

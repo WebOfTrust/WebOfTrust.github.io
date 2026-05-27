@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Regenerate the generated parts of the .well-known/ tree.
+"""Generate the published .well-known/ discovery surface from source OOBIs.
 
-Source of truth is the structured layout under
-.well-known/{aid,schema,witness}/oobi/<SAID>/index.json, which is hand-authored
-and never modified by this script. From it we generate:
+This is a *reference* build script. The only thing standardized for consumers is
+the published surface under .well-known/ that it emits; how you organize your
+source is your business ("bring your own build-wellknown.py"). This repo keeps
+hand-authored source OOBIs in repo-root buckets named by resource type:
+
+    {aid,schema,witness}/oobi/<SAID>/index.json   (never served; see _config.yml)
+
+and from them generates everything under .well-known/, which is 100% build
+output -- do not hand-edit it:
 
 1. .well-known/oobi/<SAID>/index.json  -- a flat, type-agnostic mirror (byte-exact
    copies) so a consumer can blindly GET /.well-known/oobi/<AID>/index.json and
@@ -12,26 +18,22 @@ and never modified by this script. From it we generate:
    any change would invalidate their attached signatures.
 
 2. .well-known/oobi/index.json  -- the discovery catalog: a generated inventory
-   of every resource, enriched with metadata pulled from the source files
-   (schema titles/versions from the schema OOBIs, AID friendly names from
-   .well-known/aid/oobi/index.json). This replaces the old hand-authored
-   .well-known/index.json, so the catalog can never drift from the tree.
+   of every resource, enriched with metadata from the source files (schema
+   titles/versions from the schema OOBIs, AID friendly names from
+   aid/oobi/index.json). Generated, so it can never drift from the source.
 
 3. .well-known/host-meta.json  -- the canonical entry point: an RFC 6415 JRD
-   (Web Host Metadata) advertising link relations + URI templates for resolving
-   OOBIs, with its discovery-catalog link pointing at the generated catalog
-   above. host-meta describes the *shape* (rels + templates); the catalog
-   enumerates the *contents*.
+   (Web Host Metadata). It describes only the *published* contract -- the flat
+   /oobi/ lookup template + a link to the catalog -- not the source layout.
 
    We use host-meta's static templates rather than WebFinger because WebFinger
    needs a query endpoint, which static GitHub Pages cannot provide.
 
-4. .well-known/index.html  -- a human landing page rendered from the same
-   catalog data, so it stays in sync with the tree (do not hand-edit it).
+4. .well-known/index.html  -- a human landing page rendered from the same catalog.
 
 GitHub Pages serves these as static files (Jekyll runs in safe mode, no custom
-plugins), so the generated output must be committed. Re-run after any change to
-the structured tree:
+plugins), so the generated output must be committed. Re-run after any source
+change:
 
     python3 scripts/build-wellknown.py [--host https://weboftrust.github.io]
 """
@@ -46,7 +48,8 @@ import shutil
 import sys
 from pathlib import Path
 
-# Structured buckets that feed the flat mirror, in priority order.
+# Hand-authored source buckets (at repo root, never served). Each holds
+# oobi/<SAID>/index.json files; the bucket name is the resource type.
 SOURCE_TYPES = ("aid", "schema", "witness")
 RESOURCE = "index.json"
 DEFAULT_HOST = "https://weboftrust.github.io"
@@ -56,15 +59,9 @@ ORGANIZATION = "Global Legal Entity Identifier Foundation (GLEIF)"
 CONTACT = "https://www.gleif.org"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-WELL_KNOWN = REPO_ROOT / ".well-known"
+SOURCE_ROOT = REPO_ROOT  # source buckets live at repo root: <type>/oobi/<SAID>/
+WELL_KNOWN = REPO_ROOT / ".well-known"  # generated output (published) lives here
 FLAT_DIR = WELL_KNOWN / "oobi"
-
-# Advisory media type per bucket (what the link target represents).
-TYPE_MEDIA = {
-    "aid": "application/json",
-    "schema": "application/schema+json",
-    "witness": "application/json",
-}
 
 
 def discover() -> tuple[dict[str, dict[str, str]], list[str]]:
@@ -73,7 +70,7 @@ def discover() -> tuple[dict[str, dict[str, str]], list[str]]:
     collisions: list[str] = []
 
     for kind in SOURCE_TYPES:
-        bucket = WELL_KNOWN / kind / "oobi"
+        bucket = SOURCE_ROOT / kind / "oobi"
         if not bucket.is_dir():
             continue
         for said_dir in sorted(p for p in bucket.iterdir() if p.is_dir()):
@@ -94,8 +91,8 @@ def discover() -> tuple[dict[str, dict[str, str]], list[str]]:
 
 
 def load_aid_names() -> dict[str, str]:
-    """Map AID SAID -> friendly name from .well-known/aid/oobi/index.json."""
-    listing = WELL_KNOWN / "aid" / "oobi" / RESOURCE
+    """Map AID SAID -> friendly name from the aid/oobi/index.json source listing."""
+    listing = SOURCE_ROOT / "aid" / "oobi" / RESOURCE
     if not listing.is_file():
         return {}
     try:
@@ -120,39 +117,45 @@ def schema_meta(path: Path) -> dict[str, str]:
 
 
 def build_catalog(entries: dict[str, dict[str, str]]) -> dict[str, dict]:
-    """Rebuild the flat mirror + catalog; return resources keyed by SAID."""
+    """Rebuild the flat mirror + catalog; return resources grouped by type."""
     if FLAT_DIR.exists():
         shutil.rmtree(FLAT_DIR)
     FLAT_DIR.mkdir(parents=True)
 
     aid_names = load_aid_names()
-    resources: dict[str, dict] = {}
+    # Grouped by type: {kind: {SAID: entry}}. The group key carries the type, so
+    # entries don't repeat it. "oobi" is kept last for readability.
+    resources: dict[str, dict] = {kind: {} for kind in SOURCE_TYPES}
     for said, info in sorted(entries.items()):
         dest_dir = FLAT_DIR / said
         dest_dir.mkdir()
         shutil.copyfile(REPO_ROOT / info["source"], dest_dir / RESOURCE)
 
-        entry: dict[str, str] = {
-            "type": info["type"],
-            "oobi": f"/.well-known/oobi/{said}/{RESOURCE}",
-            "source": f"/{info['source']}",
-        }
-        if info["type"] == "aid" and said in aid_names:
-            entry["name"] = aid_names[said]
-        elif info["type"] == "schema":
-            entry.update(schema_meta(REPO_ROOT / info["source"]))
-        resources[said] = entry
+        kind = info["type"]
+        if kind == "schema":
+            entry = schema_meta(REPO_ROOT / info["source"])
+        elif kind == "aid":
+            entry = {"name": aid_names[said]} if said in aid_names else {}
+        else:
+            entry = {}
+        entry["oobi"] = f"/.well-known/oobi/{said}/{RESOURCE}"
+        resources[kind][said] = entry
+
+    # Drop empty groups; keep SOURCE_TYPES order.
+    resources = {kind: resources[kind] for kind in SOURCE_TYPES if resources[kind]}
+    total = sum(len(group) for group in resources.values())
 
     catalog = {
         "name": "GLEIF OOBI Discovery Catalog",
         "description": (
-            "Generated inventory of every published OOBI resource. GET "
-            "/.well-known/oobi/<SAID>/index.json to resolve any one by SAID/AID "
-            "without knowing its type. Discoverable via /.well-known/host-meta.json."
+            "Generated inventory of every published OOBI resource, grouped by "
+            "type. GET /.well-known/oobi/<SAID>/index.json to resolve any one by "
+            "SAID/AID without knowing its type. Discoverable via "
+            "/.well-known/host-meta.json."
         ),
         "generator": "scripts/build-wellknown.py",
         "updated": datetime.date.today().isoformat(),
-        "count": len(resources),
+        "count": total,
         "organization": ORGANIZATION,
         "contact": CONTACT,
         "resources": resources,
@@ -161,8 +164,13 @@ def build_catalog(entries: dict[str, dict[str, str]]) -> dict[str, dict]:
     return resources
 
 
-def build_host_meta(host: str, present_types: list[str]) -> None:
-    """Write an RFC 6415 JRD describing how to discover resources on this host."""
+def build_host_meta(host: str) -> None:
+    """Write an RFC 6415 JRD describing the published discovery surface.
+
+    It advertises only the public contract -- the flat /oobi/ lookup template and
+    the catalog -- not the source layout. Clients that want a specific type read
+    the catalog's per-entry "type" field; there are no per-type URL namespaces.
+    """
     host = host.rstrip("/")
     rels = f"{host}/rels"
     links = [
@@ -172,26 +180,14 @@ def build_host_meta(host: str, present_types: list[str]) -> None:
             "rel": f"{rels}/oobi",
             "template": f"{host}/.well-known/oobi/{{said}}/{RESOURCE}",
             "titles": {"en": "Type-agnostic OOBI lookup by SAID/AID"},
-        }
-    ]
-    for kind in present_types:
-        links.append(
-            {
-                "rel": f"{rels}/{kind}-oobi",
-                "type": TYPE_MEDIA[kind],
-                "template": f"{host}/.well-known/{kind}/oobi/{{said}}/{RESOURCE}",
-                "titles": {"en": f"{kind.capitalize()} OOBI lookup by SAID"},
-            }
-        )
-    links.append(
+        },
         {
             "rel": f"{rels}/discovery-catalog",
             "type": "application/json",
             "href": f"{host}/.well-known/oobi/{RESOURCE}",
             "titles": {"en": "Generated discovery catalog (all OOBI resources)"},
-        }
-    )
-
+        },
+    ]
     jrd = {"subject": host, "links": links}
     (WELL_KNOWN / "host-meta.json").write_text(json.dumps(jrd, indent=2) + "\n")
 
@@ -209,7 +205,7 @@ SECTION_SORT = {
 }
 
 HTML_HEAD = """<!DOCTYPE html>
-<!-- Generated by scripts/build-wellknown.py from the .well-known/{aid,schema,witness}/oobi tree. Do not edit by hand. -->
+<!-- Generated by scripts/build-wellknown.py from the {aid,schema,witness}/oobi source tree. Do not edit by hand. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -259,13 +255,9 @@ def _html_item(kind: str, said: str, entry: dict) -> str:
 
 def build_index_html(resources: dict[str, dict], present_types: list[str]) -> None:
     """Render the human landing page from the catalog (root-relative links)."""
-    groups: dict[str, list] = {t: [] for t in present_types}
-    for said, entry in resources.items():
-        groups.setdefault(entry["type"], []).append((said, entry))
-
     sections = []
     for kind in present_types:
-        items = sorted(groups.get(kind, []), key=SECTION_SORT[kind])
+        items = sorted(resources.get(kind, {}).items(), key=SECTION_SORT[kind])
         rows = "\n".join(_html_item(kind, said, entry) for said, entry in items)
         sections.append(
             f'  <section>\n    <h2>{html.escape(SECTION_LABELS.get(kind, kind))}'
@@ -302,29 +294,28 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    if not WELL_KNOWN.is_dir():
-        print(f"error: {WELL_KNOWN} not found", file=sys.stderr)
-        return 1
-
     entries, collisions = discover()
     if collisions:
-        print("error: SAID collision across structured buckets:", file=sys.stderr)
+        print("error: SAID collision across source buckets:", file=sys.stderr)
         for msg in collisions:
             print(f"  {msg}", file=sys.stderr)
+        return 1
+    if not entries:
+        buckets = ", ".join(f"{t}/oobi" for t in SOURCE_TYPES)
+        print(f"error: no source OOBIs found under: {buckets}", file=sys.stderr)
         return 1
 
     resources = build_catalog(entries)
 
-    by_type: dict[str, int] = {}
-    for info in resources.values():
-        by_type[info["type"]] = by_type.get(info["type"], 0) + 1
-    present_types = [t for t in SOURCE_TYPES if by_type.get(t)]
+    present_types = [t for t in SOURCE_TYPES if resources.get(t)]
+    by_type = {t: len(resources[t]) for t in present_types}
 
-    build_host_meta(args.host, present_types)
+    build_host_meta(args.host)
     build_index_html(resources, present_types)
 
+    total = sum(by_type.values())
     summary = ", ".join(f"{by_type[t]} {t}" for t in present_types)
-    print(f"catalog + flat mirror: {len(resources)} OOBIs ({summary}) -> {FLAT_DIR.relative_to(REPO_ROOT)}/")
+    print(f"catalog + flat mirror: {total} OOBIs ({summary}) -> {FLAT_DIR.relative_to(REPO_ROOT)}/")
     print(f"wrote .well-known/host-meta.json for {args.host.rstrip('/')}")
     print("wrote .well-known/index.html")
     return 0

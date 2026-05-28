@@ -2,7 +2,7 @@
   "name": "GLEIF OOBI Discovery Catalog",
   "description": "Generated inventory of every published OOBI resource, grouped by type. GET /.well-known/oobi/<SAID>/index.json to resolve any one by SAID/AID without knowing its type. Discoverable via /.well-known/host-meta.json.",
   "generator": "scripts/build-wellknown.py",
-  "updated": "2026-05-27",
+  "updated": "2026-05-28",
   "count": 22,
   "organization": "Global Legal Entity Identifier Foundation (GLEIF)",
   "contact": "https://www.gleif.org",

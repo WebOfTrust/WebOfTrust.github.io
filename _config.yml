@@ -1,5 +1,12 @@
-# NOTE: the "oobi" entry below is deprecated. The /oobi/ directory will be
-# retired in favor of the .well-known/ structure (see .well-known/index.json).
-# Once consumers have migrated to /.well-known/aid/oobi/, /.well-known/schema/oobi/,
-# and /.well-known/witness/oobi/, drop "oobi" from this include list.
-include: [".well-known", "oobi"]
+# Publish the generated .well-known/ surface; Jekyll skips dot-directories by
+# default, so it must be force-included. Everything under .well-known/ except
+# external/ is build output from scripts/build-wellknown.py.
+include: [".well-known"]
+
+# Build inputs and tooling, not published content:
+#   scripts/               -- the reference build script
+#   {aid,schema,witness}/  -- hand-authored source OOBIs, organized by type
+# build-wellknown.py reads the source buckets and writes the served files under
+# .well-known/ (flat /oobi mirror, catalog, host-meta.json, index.html). Run it
+# locally and commit the output -- Pages has no server-side build step.
+exclude: ["scripts", "aid", "schema", "witness"]

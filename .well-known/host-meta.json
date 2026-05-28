@@ -1,0 +1,20 @@
+{
+  "subject": "https://weboftrust.github.io",
+  "links": [
+    {
+      "rel": "https://weboftrust.github.io/rels/oobi",
+      "template": "https://weboftrust.github.io/.well-known/oobi/{said}/index.json",
+      "titles": {
+        "en": "Type-agnostic OOBI lookup by SAID/AID"
+      }
+    },
+    {
+      "rel": "https://weboftrust.github.io/rels/discovery-catalog",
+      "type": "application/json",
+      "href": "https://weboftrust.github.io/.well-known/oobi/index.json",
+      "titles": {
+        "en": "Generated discovery catalog (all OOBI resources)"
+      }
+    }
+  ]
+}

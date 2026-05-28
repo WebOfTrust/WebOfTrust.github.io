@@ -1,0 +1,112 @@
+{
+  "name": "GLEIF OOBI Discovery Catalog",
+  "description": "Generated inventory of every published OOBI resource, grouped by type. GET /.well-known/oobi/<SAID>/index.json to resolve any one by SAID/AID without knowing its type. Discoverable via /.well-known/host-meta.json.",
+  "generator": "scripts/build-wellknown.py",
+  "updated": "2026-05-28",
+  "count": 22,
+  "organization": "Global Legal Entity Identifier Foundation (GLEIF)",
+  "contact": "https://www.gleif.org",
+  "resources": {
+    "aid": {
+      "EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2": {
+        "name": "GLEIF RoOT",
+        "oobi": "/.well-known/oobi/EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2/index.json"
+      },
+      "EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL": {
+        "name": "GLEIF Internal",
+        "oobi": "/.well-known/oobi/EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL/index.json"
+      },
+      "EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS": {
+        "name": "GLEIF External",
+        "oobi": "/.well-known/oobi/EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS/index.json"
+      }
+    },
+    "schema": {
+      "EBNaNu-M9P5cgrnfl2Fvymy4E_jvxxyjb70PRtiANlJy": {
+        "title": "Legal Entity Official Organizational Role vLEI Credential",
+        "credentialType": "LegalEntityOfficialOrganizationalRolevLEICredential",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/EBNaNu-M9P5cgrnfl2Fvymy4E_jvxxyjb70PRtiANlJy/index.json"
+      },
+      "EBfdlu8R27Fbx-ehrqwImnK-8Cm79sqbAQ4MmvEAYqao": {
+        "title": "Qualified vLEI Issuer Credential",
+        "credentialType": "QualifiedvLEIIssuervLEICredential",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/EBfdlu8R27Fbx-ehrqwImnK-8Cm79sqbAQ4MmvEAYqao/index.json"
+      },
+      "EDthuv3Zf67Y_Ly_wpVm8TUKaoVKxXUKCyAI9VeofR7X": {
+        "title": "Designated Aliases Private Attestation",
+        "credentialType": "DesignatedAliasesPrivateAttestation",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/EDthuv3Zf67Y_Ly_wpVm8TUKaoVKxXUKCyAI9VeofR7X/index.json"
+      },
+      "EEy9PkikFcANV1l7EHukCeXqrzT1hNZjGlUk7wuMO5jw": {
+        "title": "Legal Entity Engagement Context Role vLEI Credential",
+        "credentialType": "LegalEntityEngagementContextRolevLEICredential",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/EEy9PkikFcANV1l7EHukCeXqrzT1hNZjGlUk7wuMO5jw/index.json"
+      },
+      "EH6ekLjSr8V32WyFbGe1zXjTzFs9PkTYmupJ9H65O14g": {
+        "title": "ECR Authorization vLEI Credential",
+        "credentialType": "ECRAuthorizationvLEICredential",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/EH6ekLjSr8V32WyFbGe1zXjTzFs9PkTYmupJ9H65O14g/index.json"
+      },
+      "EKA57bKBKxr_kN7iN5i7lMUxpMG-s19dRcmov1iDxz-E": {
+        "title": "OOR Authorization vLEI Credential",
+        "credentialType": "OORAuthorizationvLEICredential",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/EKA57bKBKxr_kN7iN5i7lMUxpMG-s19dRcmov1iDxz-E/index.json"
+      },
+      "EMhvwOlyEJ9kN4PrwCpr9Jsv7TxPhiYveZ0oP3lJzdEi": {
+        "title": "iXBRL Data Value Attestation",
+        "credentialType": "iXBRLDataAttestation",
+        "oobi": "/.well-known/oobi/EMhvwOlyEJ9kN4PrwCpr9Jsv7TxPhiYveZ0oP3lJzdEi/index.json"
+      },
+      "EN6Oh5XSD5_q2Hgu-aqpdfbVepdpYpFlgz6zvJL5b_r5": {
+        "title": "Designated Aliases Public Attestation",
+        "credentialType": "DesignatedAliasesPublicAttestation",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/EN6Oh5XSD5_q2Hgu-aqpdfbVepdpYpFlgz6zvJL5b_r5/index.json"
+      },
+      "ENPXp1vQzRF6JwIuS-mp2U8Uf1MoADoP_GqQ62VsDZWY": {
+        "title": "Legal Entity vLEI Credential",
+        "credentialType": "LegalEntityvLEICredential",
+        "version": "1.0.0",
+        "oobi": "/.well-known/oobi/ENPXp1vQzRF6JwIuS-mp2U8Uf1MoADoP_GqQ62VsDZWY/index.json"
+      }
+    },
+    "witness": {
+      "BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS": {
+        "oobi": "/.well-known/oobi/BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS/index.json"
+      },
+      "BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt": {
+        "oobi": "/.well-known/oobi/BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt/index.json"
+      },
+      "BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo": {
+        "oobi": "/.well-known/oobi/BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo/index.json"
+      },
+      "BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG": {
+        "oobi": "/.well-known/oobi/BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG/index.json"
+      },
+      "BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X": {
+        "oobi": "/.well-known/oobi/BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X/index.json"
+      },
+      "BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-": {
+        "oobi": "/.well-known/oobi/BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-/index.json"
+      },
+      "BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw": {
+        "oobi": "/.well-known/oobi/BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw/index.json"
+      },
+      "BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC": {
+        "oobi": "/.well-known/oobi/BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC/index.json"
+      },
+      "BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj": {
+        "oobi": "/.well-known/oobi/BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj/index.json"
+      },
+      "BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB": {
+        "oobi": "/.well-known/oobi/BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB/index.json"
+      }
+    }
+  }
+}

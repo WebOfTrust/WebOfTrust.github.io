@@ -276,8 +276,7 @@ def build_index_html(resources: dict[str, dict], present_types: list[str]) -> No
             '<a href="/.well-known/external/">external endpoints</a>.</p>'
         )
     footer.append(
-        f"    <p>Generated {datetime.date.today().isoformat()} by "
-        "<code>scripts/build-wellknown.py</code> &mdash; do not edit by hand.</p>"
+        f"    <p>Generated {datetime.date.today().isoformat()} do not edit by hand.</p> "
     )
     footer.append("  </footer>")
 

@@ -62,6 +62,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCE_ROOT = REPO_ROOT  # source buckets live at repo root: <type>/<SAID>/
 WELL_KNOWN = REPO_ROOT / ".well-known"  # generated output (published) lives here
 FLAT_DIR = WELL_KNOWN / "oobi"
+# Legacy compatibility mirror at the repo root (/oobi/...). Older OOBI consumers
+# still GET /oobi/<SAID>/index.json (the pre-.well-known contract); we keep that
+# path alive as a byte-exact copy of FLAT_DIR. The canonical surface remains
+# .well-known/; this is a generated duplicate, never hand-edited.
+LEGACY_DIR = REPO_ROOT / "oobi"
 
 
 def discover() -> tuple[dict[str, dict[str, str]], list[str]]:
@@ -162,6 +167,18 @@ def build_catalog(entries: dict[str, dict[str, str]]) -> dict[str, dict]:
     }
     (FLAT_DIR / RESOURCE).write_text(json.dumps(catalog, indent=2) + "\n")
     return resources
+
+
+def mirror_legacy_oobi() -> None:
+    """Copy the flat mirror to the repo-root /oobi/ for backward compatibility.
+
+    Pre-.well-known consumers fetch /oobi/<SAID>/index.json directly; this keeps
+    that path serving the same byte-exact OOBIs (signed CESR streams must not be
+    altered). Regenerated from FLAT_DIR every build, so it can never drift.
+    """
+    if LEGACY_DIR.exists():
+        shutil.rmtree(LEGACY_DIR)
+    shutil.copytree(FLAT_DIR, LEGACY_DIR)
 
 
 def build_host_meta(host: str) -> None:
@@ -305,6 +322,7 @@ def main() -> int:
         return 1
 
     resources = build_catalog(entries)
+    mirror_legacy_oobi()
 
     present_types = [t for t in SOURCE_TYPES if resources.get(t)]
     by_type = {t: len(resources[t]) for t in present_types}
@@ -315,6 +333,7 @@ def main() -> int:
     total = sum(by_type.values())
     summary = ", ".join(f"{by_type[t]} {t}" for t in present_types)
     print(f"catalog + flat mirror: {total} OOBIs ({summary}) -> {FLAT_DIR.relative_to(REPO_ROOT)}/")
+    print(f"legacy mirror: {total} OOBIs -> {LEGACY_DIR.relative_to(REPO_ROOT)}/")
     print(f"wrote .well-known/host-meta.json for {args.host.rstrip('/')}")
     print("wrote .well-known/index.html")
     return 0

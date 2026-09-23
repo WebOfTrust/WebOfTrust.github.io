@@ -11,6 +11,7 @@
     code { font-size: 0.85em; word-break: break-all; }
     .ver { color: #555; font-weight: normal; }
     .count { color: #888; font-weight: normal; font-size: 0.8em; }
+    .rel { color: #555; font-size: 0.9em; }
     li { margin-bottom: 0.6rem; }
     footer { margin-top: 2rem; border-top: 1px solid #ddd; padding-top: 1rem; color: #555; font-size: 0.9em; }
   </style>
@@ -25,22 +26,28 @@
   <a href="/.well-known/oobi/index.json">discovery catalog</a>. To resolve a
   known identifier directly, GET
   <code>/.well-known/oobi/&lt;SAID&gt;/index.json</code>.</p>
+  <p>Each witness entry is the witness's own controller OOBI: its inception
+  event plus witness-signed <code>/loc/scheme</code> replies giving its
+  endpoint URL. The URLs shown below are lifted from those signed replies.</p>
   <section>
     <h2>GLEIF Identifiers (AIDs) <span class="count">(3)</span></h2>
     <ul>
       <li>
         <strong>GLEIF External</strong><br>
         <code>EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS</code><br>
+        <span class="rel">witnesses: 5</span><br>
         <a href="/.well-known/oobi/EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS/index.json">OOBI</a>
       </li>
       <li>
         <strong>GLEIF Internal</strong><br>
         <code>EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL</code><br>
+        <span class="rel">witnesses: 5</span><br>
         <a href="/.well-known/oobi/EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL/index.json">OOBI</a>
       </li>
       <li>
         <strong>GLEIF RoOT</strong><br>
         <code>EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2</code><br>
+        <span class="rel">witnesses: 5</span><br>
         <a href="/.well-known/oobi/EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2/index.json">OOBI</a>
       </li>
     </ul>
@@ -99,60 +106,70 @@
     <h2>KERI Witnesses <span class="count">(10)</span></h2>
     <ul>
       <li>
-        <strong>Witness</strong><br>
-        <code>BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS</code><br>
-        <a href="/.well-known/oobi/BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS/index.json">OOBI</a>
-      </li>
-      <li>
-        <strong>Witness</strong><br>
-        <code>BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt</code><br>
-        <a href="/.well-known/oobi/BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt/index.json">OOBI</a>
-      </li>
-      <li>
-        <strong>Witness</strong><br>
-        <code>BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo</code><br>
-        <a href="/.well-known/oobi/BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo/index.json">OOBI</a>
-      </li>
-      <li>
-        <strong>Witness</strong><br>
+        <strong>http://102.37.159.99:5623/</strong><br>
         <code>BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG</code><br>
+        <span class="rel">witness for: GLEIF RoOT, GLEIF External</span><br>
         <a href="/.well-known/oobi/BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG/index.json">OOBI</a>
       </li>
       <li>
-        <strong>Witness</strong><br>
-        <code>BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X</code><br>
-        <a href="/.well-known/oobi/BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X/index.json">OOBI</a>
-      </li>
-      <li>
-        <strong>Witness</strong><br>
-        <code>BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-</code><br>
-        <a href="/.well-known/oobi/BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-/index.json">OOBI</a>
-      </li>
-      <li>
-        <strong>Witness</strong><br>
-        <code>BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw</code><br>
-        <a href="/.well-known/oobi/BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw/index.json">OOBI</a>
-      </li>
-      <li>
-        <strong>Witness</strong><br>
-        <code>BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC</code><br>
-        <a href="/.well-known/oobi/BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC/index.json">OOBI</a>
-      </li>
-      <li>
-        <strong>Witness</strong><br>
+        <strong>http://13.244.119.106:5623/</strong><br>
         <code>BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj</code><br>
+        <span class="rel">witness for: GLEIF RoOT, GLEIF Internal</span><br>
         <a href="/.well-known/oobi/BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj/index.json">OOBI</a>
       </li>
       <li>
-        <strong>Witness</strong><br>
+        <strong>http://20.78.61.227:5623/</strong><br>
+        <code>BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-</code><br>
+        <span class="rel">witness for: GLEIF Internal</span><br>
+        <a href="/.well-known/oobi/BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-/index.json">OOBI</a>
+      </li>
+      <li>
+        <strong>http://5.161.69.25:5623/</strong><br>
         <code>BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB</code><br>
+        <span class="rel">witness for: GLEIF RoOT, GLEIF Internal</span><br>
         <a href="/.well-known/oobi/BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB/index.json">OOBI</a>
+      </li>
+      <li>
+        <strong>http://51.161.130.60:5623/</strong><br>
+        <code>BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt</code><br>
+        <span class="rel">witness for: GLEIF RoOT, GLEIF Internal</span><br>
+        <a href="/.well-known/oobi/BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt/index.json">OOBI</a>
+      </li>
+      <li>
+        <strong>http://51.79.54.121:5623/</strong><br>
+        <code>BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X</code><br>
+        <span class="rel">witness for: GLEIF External</span><br>
+        <a href="/.well-known/oobi/BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X/index.json">OOBI</a>
+      </li>
+      <li>
+        <strong>http://54.233.109.129:5623/</strong><br>
+        <code>BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo</code><br>
+        <span class="rel">witness for: GLEIF External</span><br>
+        <a href="/.well-known/oobi/BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo/index.json">OOBI</a>
+      </li>
+      <li>
+        <strong>http://65.21.253.212:5623/</strong><br>
+        <code>BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS</code><br>
+        <span class="rel">witness for: GLEIF External</span><br>
+        <a href="/.well-known/oobi/BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS/index.json">OOBI</a>
+      </li>
+      <li>
+        <strong>http://8.208.27.153:5623/</strong><br>
+        <code>BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC</code><br>
+        <span class="rel">witness for: GLEIF RoOT, GLEIF Internal</span><br>
+        <a href="/.well-known/oobi/BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC/index.json">OOBI</a>
+      </li>
+      <li>
+        <strong>http://8.210.213.186:5623/</strong><br>
+        <code>BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw</code><br>
+        <span class="rel">witness for: GLEIF External</span><br>
+        <a href="/.well-known/oobi/BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw/index.json">OOBI</a>
       </li>
     </ul>
   </section>
   <footer>
     <p>Global Legal Entity Identifier Foundation (GLEIF) &middot; <a href="https://www.gleif.org">https://www.gleif.org</a></p>
-    <p>Generated 2026-06-08 do not edit by hand.</p> 
+    <p>Generated 2026-09-23 do not edit by hand.</p> 
   </footer>
 </body>
 </html>

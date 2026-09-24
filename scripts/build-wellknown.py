@@ -21,8 +21,8 @@ output -- do not hand-edit it:
    of every resource, enriched with metadata from the source files (schema
    titles/versions from the schema OOBIs, AID friendly names from
    aid/index.json, witness endpoint URLs from the witnesses' own signed
-   /loc/scheme replies, and AID <-> witness cross-links derived from the AIDs'
-   /oobi/witness replies). Generated, so it can never drift from the source.
+   /loc/scheme replies, and each AID's designated witnesses derived from its
+   own /oobi/witness reply). Generated, so it can never drift from the source.
 
 3. .well-known/host-meta.json  -- the canonical entry point: an RFC 6415 JRD
    (Web Host Metadata). It describes only the *published* contract -- the flat
@@ -244,13 +244,16 @@ def build_catalog(entries: dict[str, dict[str, str]]) -> dict[str, dict]:
             entry = {}
         resources[kind][said] = entry
 
-    # Cross-link AIDs and witnesses. An AID's /oobi/witness reply names its
-    # witnesses only by URL; match those against the witnesses' own /loc/scheme
-    # URLs by (scheme, host:port).
+    # Resolve each AID's designated witnesses to witness AIDs. An AID's
+    # /oobi/witness reply names its witnesses only by URL; match those against
+    # the witnesses' own /loc/scheme URLs by (scheme, host:port). Only the AID
+    # side carries the link: designating witnesses is the controller's
+    # prerogative (its KEL is authoritative), and a witness never asserts which
+    # AIDs it serves -- so witness entries get no reverse "witnessFor" field.
     by_netloc = {
         netloc_key(url): wit for wit, urls in witness_urls.items() for url in urls.values()
     }
-    witness_for: dict[str, set[str]] = {wit: set() for wit in resources["witness"]}
+    referenced: set[str] = set()
     for aid, urls in aid_urls.items():
         witnesses: set[str] = set()
         for url in urls:
@@ -259,14 +262,12 @@ def build_catalog(entries: dict[str, dict[str, str]]) -> dict[str, dict]:
                 warn(f"aid {aid}: witness url {url} matches no published witness")
                 continue
             witnesses.add(wit)
-            witness_for[wit].add(aid)
+        referenced |= witnesses
         if witnesses:
             resources["aid"][aid]["witnesses"] = sorted(witnesses)
-    for wit, aids in witness_for.items():
-        if aids:
-            resources["witness"][wit]["witnessFor"] = sorted(aids)
-        else:
-            warn(f"witness {wit}: serves no published AID")
+    for wit in resources["witness"]:
+        if wit not in referenced:
+            warn(f"witness {wit}: not designated by any published AID")
 
     for kind, group in resources.items():
         for said, entry in group.items():
@@ -285,8 +286,8 @@ def build_catalog(entries: dict[str, dict[str, str]]) -> dict[str, dict]:
             "/.well-known/host-meta.json. Witness entries are the witness's own "
             "controller OOBI (inception event plus witness-signed /loc/scheme "
             "endpoint replies); each witness's 'urls' is extracted from those "
-            "signed replies, and 'witnesses'/'witnessFor' cross-link AIDs and "
-            "witnesses via the AIDs' /oobi/witness replies."
+            "signed replies. Each AID's 'witnesses' is resolved from its own "
+            "/oobi/witness reply; the AID's KEL remains authoritative."
         ),
         "generator": "scripts/build-wellknown.py",
         "updated": datetime.date.today().isoformat(),
@@ -386,7 +387,7 @@ HTML_HEAD = """<!DOCTYPE html>
 """
 
 
-def _html_item(kind: str, said: str, entry: dict, names: dict[str, str]) -> str:
+def _html_item(kind: str, said: str, entry: dict) -> str:
     extra = ""
     if kind == "schema":
         heading = f"<strong>{html.escape(entry.get('title', said))}</strong>"
@@ -401,10 +402,6 @@ def _html_item(kind: str, said: str, entry: dict, names: dict[str, str]) -> str:
     else:
         url = primary_url(entry)
         heading = f"<strong>{html.escape(url)}</strong>" if url else "<strong>Witness</strong>"
-        served = [names.get(aid, aid) for aid in entry.get("witnessFor", [])]
-        if served:
-            extra = ('<span class="rel">witness for: '
-                     f"{html.escape(', '.join(served))}</span><br>\n")
     return (
         "      <li>\n"
         f"        {heading}<br>\n"
@@ -417,15 +414,10 @@ def _html_item(kind: str, said: str, entry: dict, names: dict[str, str]) -> str:
 
 def build_index_html(resources: dict[str, dict], present_types: list[str]) -> None:
     """Render the human landing page from the catalog (root-relative links)."""
-    names = {
-        said: entry["name"]
-        for said, entry in resources.get("aid", {}).items()
-        if "name" in entry
-    }
     sections = []
     for kind in present_types:
         items = sorted(resources.get(kind, {}).items(), key=SECTION_SORT[kind])
-        rows = "\n".join(_html_item(kind, said, entry, names) for said, entry in items)
+        rows = "\n".join(_html_item(kind, said, entry) for said, entry in items)
         sections.append(
             f'  <section>\n    <h2>{html.escape(SECTION_LABELS.get(kind, kind))}'
             f' <span class="count">({len(items)})</span></h2>\n    <ul>\n'

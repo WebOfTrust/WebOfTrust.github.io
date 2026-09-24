@@ -12,7 +12,7 @@ Everything under `.well-known/` is build output. The contract for consumers:
 | --- | --- |
 | `/.well-known/host-meta.json` | Entry point — RFC 6415 JRD: a flat OOBI lookup template + a link to the catalog |
 | `/.well-known/oobi/<SAID>/index.json` | Resolve any AID/schema/witness by SAID — **type-agnostic** (200 = we have it, 404 = we don't) |
-| `/.well-known/oobi/index.json` | Discovery catalog — every resource, grouped by type, with witness endpoint `urls` and AID ↔ witness cross-links |
+| `/.well-known/oobi/index.json` | Discovery catalog — every resource, grouped by type, with witness endpoint `urls` and each AID's designated `witnesses` |
 | `/.well-known/index.html` | Human landing page (`/` redirects here) |
 | `/oobi/<SAID>/index.json` | Legacy path, byte-exact mirror of `/.well-known/oobi/` for pre-`.well-known` consumers |
 
@@ -51,7 +51,11 @@ eye — which is why the build also lifts it into the catalog.
 
 An AID entry is the AID's `/oobi/witness` reply, listing the witness OOBI URLs
 that AID has designated. The build matches those URLs against the witnesses'
-`/loc/scheme` URLs (by scheme and host:port) to cross-link the two.
+`/loc/scheme` URLs (by scheme and host:port) to resolve them to witness AIDs.
+The link is published on the AID side only: designating witnesses is the
+controller's prerogative and its KEL is authoritative, whereas a witness never
+asserts which AIDs it serves — so witness entries carry no reverse
+"witness for" list. Treat `witnesses` as a hint and the KEL as the truth.
 
 In the catalog this shows up as:
 
@@ -59,7 +63,6 @@ In the catalog this shows up as:
 "witness": {
   "BDkq35LU…": {
     "urls": { "http": "http://65.21.253.212:5623/" },
-    "witnessFor": ["EINmHd5g…"],
     "oobi": "/.well-known/oobi/BDkq35LU…/index.json"
   }
 },
@@ -72,8 +75,8 @@ In the catalog this shows up as:
 }
 ```
 
-`urls` and the cross-links are derived, never hand-entered, so they cannot
-drift from the signed source. The build warns (but does not fail) if a witness
+`urls` and `witnesses` are derived, never hand-entered, so they cannot drift
+from the signed source. The build warns (but does not fail) if a witness
 entry has no `/loc/scheme` reply or an AID's witness URL matches no published
 witness.
 

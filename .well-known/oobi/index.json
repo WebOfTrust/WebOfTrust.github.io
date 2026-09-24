@@ -1,8 +1,8 @@
 {
   "name": "GLEIF OOBI Discovery Catalog",
-  "description": "Generated inventory of every published OOBI resource, grouped by type. GET /.well-known/oobi/<SAID>/index.json to resolve any one by SAID/AID without knowing its type. Discoverable via /.well-known/host-meta.json.",
+  "description": "Generated inventory of every published OOBI resource, grouped by type. GET /.well-known/oobi/<SAID>/index.json to resolve any one by SAID/AID without knowing its type. Discoverable via /.well-known/host-meta.json. Witness entries are the witness's own controller OOBI (inception event plus witness-signed /loc/scheme endpoint replies); each witness's 'urls' is extracted from those signed replies. Each AID's 'witnesses' is resolved from its own /oobi/witness reply; the AID's KEL remains authoritative.",
   "generator": "scripts/build-wellknown.py",
-  "updated": "2026-06-08",
+  "updated": "2026-09-23",
   "count": 22,
   "organization": "Global Legal Entity Identifier Foundation (GLEIF)",
   "contact": "https://www.gleif.org",
@@ -10,14 +10,35 @@
     "aid": {
       "EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2": {
         "name": "GLEIF RoOT",
+        "witnesses": [
+          "BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt",
+          "BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG",
+          "BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC",
+          "BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj",
+          "BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB"
+        ],
         "oobi": "/.well-known/oobi/EDP1vHcw_wc4M__Fj53-cJaBnZZASd-aMTaSyWEQ-PC2/index.json"
       },
       "EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL": {
         "name": "GLEIF Internal",
+        "witnesses": [
+          "BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt",
+          "BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-",
+          "BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC",
+          "BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj",
+          "BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB"
+        ],
         "oobi": "/.well-known/oobi/EFcrtYzHx11TElxDmEDx355zm7nJhbmdcIluw7UMbUIL/index.json"
       },
       "EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS": {
         "name": "GLEIF External",
+        "witnesses": [
+          "BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS",
+          "BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo",
+          "BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG",
+          "BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X",
+          "BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw"
+        ],
         "oobi": "/.well-known/oobi/EINmHd5g7iV-UldkkkKyBIH052bIyxZNBn9pq-zNrYoS/index.json"
       }
     },
@@ -78,33 +99,63 @@
     },
     "witness": {
       "BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS": {
+        "urls": {
+          "http": "http://65.21.253.212:5623/"
+        },
         "oobi": "/.well-known/oobi/BDkq35LUU63xnFmfhljYYRY0ymkCg7goyeCxN30tsvmS/index.json"
       },
       "BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt": {
+        "urls": {
+          "http": "http://51.161.130.60:5623/"
+        },
         "oobi": "/.well-known/oobi/BDwydI_FJJ-tvAtCl1tIu_VQqYTI3Q0JyHDhO1v2hZBt/index.json"
       },
       "BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo": {
+        "urls": {
+          "http": "http://54.233.109.129:5623/"
+        },
         "oobi": "/.well-known/oobi/BFl6k3UznzmEVuMpBOtUUiR2RO2NZkR3mKrZkNRaZedo/index.json"
       },
       "BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG": {
+        "urls": {
+          "http": "http://102.37.159.99:5623/"
+        },
         "oobi": "/.well-known/oobi/BGYJwPAzjyJgsipO7GY9ZsBTeoUJrdzjI2w_5N-Nl6gG/index.json"
       },
       "BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X": {
+        "urls": {
+          "http": "http://51.79.54.121:5623/"
+        },
         "oobi": "/.well-known/oobi/BHxz8CDS_mNxAhAxQe1qxdEIzS625HoYgEMgqjZH_g2X/index.json"
       },
       "BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-": {
+        "urls": {
+          "http": "http://20.78.61.227:5623/"
+        },
         "oobi": "/.well-known/oobi/BICY3-X3S3iEsKH73Q1fF_w1JrXJ41V0c4Dn9aQjOSQ-/index.json"
       },
       "BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw": {
+        "urls": {
+          "http": "http://8.210.213.186:5623/"
+        },
         "oobi": "/.well-known/oobi/BLmvLSt1mDShWS67aJNP4gBVBhtOc3YEu8SytqVSsyfw/index.json"
       },
       "BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC": {
+        "urls": {
+          "http": "http://8.208.27.153:5623/"
+        },
         "oobi": "/.well-known/oobi/BLo6wQR73-eH5v90at_Wt8Ep_0xfz05qBjM3_B1UtKbC/index.json"
       },
       "BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj": {
+        "urls": {
+          "http": "http://13.244.119.106:5623/"
+        },
         "oobi": "/.well-known/oobi/BM4Ef3zlUzIAIx-VC8mXziIbtj-ZltM8Aor6TZzmTldj/index.json"
       },
       "BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB": {
+        "urls": {
+          "http": "http://5.161.69.25:5623/"
+        },
         "oobi": "/.well-known/oobi/BNfDO63ZpGc3xiFb0-jIOUnbr_bA-ixMva5cZb3s4BHB/index.json"
       }
     }
